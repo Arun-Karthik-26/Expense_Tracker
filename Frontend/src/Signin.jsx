@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
 import './App.css'; // Assuming your CSS is in App.css file
@@ -40,8 +41,8 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-
-    // Validate each field
+  
+    // Validation logic
     if (!formData.name) newErrors.name = 'Name is required';
     if (!formData.username) newErrors.username = 'Username is required';
     if (!formData.email) newErrors.email = 'Email is required';
@@ -53,32 +54,39 @@ const Signin = () => {
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-
-    // If there are errors, set the error state and return early
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
+  
+    setIsSubmitting(true);
 
-    setIsSubmitting(true); // Indicate that submission has started
-
+    const data = {
+      name: formData.name,
+      username: formData.username,
+      email: formData.email,
+      phone: formData.phone,
+      occupation: formData.occupation,
+      annualSalary: formData.annualSalary,
+      sourceOfIncome: formData.sourceOfIncome,
+      address: formData.address,
+      password: formData.password
+    };
+  
     try {
       // Send POST request to your API endpoint
-      const response = await axios.post('http://localhost:5173/login', {
-        username: formData.username,
-        password: formData.password,
-      });
-
+      const response = await axios.post('http://localhost:5000/signin', data);
+  
       console.log('Response:', response.data); // Handle response as needed
-      // You can navigate or show a success message here
-
+  
     } catch (error) {
       console.error('Error during form submission:', error);
-      // Handle error (e.g., show an error message)
     } finally {
-      setIsSubmitting(false); // Reset the submission state
+      setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div>

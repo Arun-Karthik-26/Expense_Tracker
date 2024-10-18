@@ -1,30 +1,48 @@
-import mongoose from "mongoose";
-import  {Schema,model} from "mongoose";
-const userc=new Schema({
-    name:{
-        type:String,
+// User.js
+import mongoose from 'mongoose';
+
+const { Schema, model } = mongoose;
+
+const userSchema = new Schema({
+    name: {
+        type: String,
         required: true
     },
-    email:{
-        type:String,
-        required:true
+    username: {
+        type: String,
+        required: true,
+        unique: true // Ensure usernames are unique
     },
-    mobile:{
-        type:Number,
-        required:true
+    email: {
+        type: String,
+        required: true, 
+        unique : true// Ensure emails are unique
     },
-    address:{
-        type:String,
-        required:true
+    phone: {
+        type: String,
+        required: true
     },
-    password:{
-        type:String,
-        required:true
+    occupation: {
+        type: String,
+        required: true
     },
-    income:{
-        type:Number,
-        required:true
+    annualSalary: {
+        type: String,
+        required: true
+    },
+    sourceOfIncome: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: false // Optional field
+    },
+    password: {
+        type: String,
+        required: true
     }
-});
-const user= new model("user_details",userc);
-export default user;
+}, { timestamps: true }); // Automatically create timestamps for createdAt and updatedAt
+
+const User = model('User', userSchema);
+export default User;
